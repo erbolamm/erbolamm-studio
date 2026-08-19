@@ -1,0 +1,163 @@
+{
+  "projects": [
+    {
+      "id": "com_apliarte_sos",
+      "name": "Com_apliarte_sos",
+      "pillar": "creacion",
+      "type": "app",
+      "description": "A new Flutter project.",
+      "urls": {
+        "github": "https://github.com/erbolamm/com_apliarte_sos"
+      },
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "erbolamm--studio-sample",
+      "name": "studio-sample",
+      "pillar": "herramientas",
+      "type": "app",
+      "description": "",
+      "urls": {
+        "github": "https://github.com/erbolamm/studio-sample",
+        "landing": null,
+        "playstore": null,
+        "appstore": null
+      },
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "flutter",
+      "name": "flutter",
+      "pillar": "herramientas",
+      "type": "app",
+      "description": "",
+      "urls": {
+        "github": "https://example.test/flutter",
+        "landing": null,
+        "playstore": null,
+        "appstore": null
+      },
+      "status": "completed",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "fabrica_de_agentes_apliarte",
+      "name": "Fábrica de Agentes ApliArte",
+      "pillar": "educacion",
+      "type": "website",
+      "description": "Plataforma comunitaria de 34 prompts y workflows de IA con conectores BYOK y taller estructurado.",
+      "urls": {
+        "github": "https://github.com/erbolamm/FabricaDeAgentesApliarte",
+        "landing": "https://erbolamm.github.io/FabricaDeAgentesApliarte/"
+      },
+      "status": "completed",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": true
+      }
+    },
+    {
+      "id": "workflow",
+      "name": "workflow",
+      "pillar": "herramientas",
+      "type": "workflow",
+      "description": "",
+      "urls": {
+        "github": "https://example.test/workflow",
+        "landing": null,
+        "playstore": null,
+        "appstore": null
+      },
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "local--afinar-de-oido",
+      "name": "afinar_de_oido",
+      "pillar": "herramientas",
+      "type": "app",
+      "description": "",
+      "urls": {
+        "github": "/Users/apliarte/trabajo/erbolamm-studio/INBOX/afinar_de_oido",
+        "landing": null,
+        "playstore": null,
+        "appstore": null
+      },
+      "status": "wip",
+      "promo": {
+        "video": true,
+        "screenshots": true,
+        "landing": false
+      }
+    },
+    {
+      "id": "afinar_de_oido",
+      "name": "Afinar_de_oido",
+      "pillar": "herramientas",
+      "type": "app",
+      "description": "\"Aprende a afinar la guitarra sin afinadores, usando tu propio oído. Métodos de afinación sencillos para agilizar tu percepción de las notas.\"",
+      "urls": {
+        "github": "https://github.com/erbolamm/afinar_de_oido"
+      },
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "local--lenguaje-no-verbal",
+      "name": "lenguaje_no_verbal",
+      "pillar": "herramientas",
+      "type": "app",
+      "description": "",
+      "urls": {
+        "github": "/Users/apliarte/trabajo/lenguaje_no_verbal",
+        "landing": null,
+        "playstore": null,
+        "appstore": null
+      },
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    },
+    {
+      "id": "lenguaje_no_verbal",
+      "name": "Lenguaje_no_verbal",
+      "pillar": "educacion",
+      "type": "app",
+      "description": "\"A new Flutter project.\"",
+      "urls": {},
+      "status": "wip",
+      "promo": {
+        "video": false,
+        "screenshots": false,
+        "landing": false
+      }
+    }
+  ],
+  "lastUpdated": "2026-08-19"
+}

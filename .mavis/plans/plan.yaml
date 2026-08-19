@@ -1,0 +1,166 @@
+version: 1
+plan:
+  name: 'Conectar checklist con Orchestrator y Registry'
+  max_concurrency: 4
+  max_consecutive_failures: 2
+  max_cycles: 5
+tasks:
+  - id: checklist-actions
+    title: 'Botones en ChecklistWidget + mostrar tipo de proyecto'
+    prompt: |
+      Trabaja en /Users/apliarte/trabajo/erbolamm-studio/
+
+      OBJETIVO: Añadir acciones al ChecklistWidget y mostrar el tipo de proyecto detectado.
+
+      ARCHIVOS A MODIFICAR:
+
+      1. lib/features/analyzer/presentation/widgets/checklist_widget.dart
+
+      Añadir al final de _buildRepoCard(), justo antes de cerrar el Padding, un chip que muestre
+      el tipo de proyecto detectado (analysis.projectType). Usar el icono emoji del enum
+      (analysis.projectType.icon) y la label (analysis.projectType.label).
+
+      Añadir AL FINAL del widget build() del ChecklistWidget, antes del cierre de Column,
+      una sección de acciones con 2 botones:
+
+      ```dart
+      const SizedBox(height: 24),
+      _buildActionsCard(context, analysis),
+      ```
+
+      Implementar _buildActionsCard:
+
+      ```dart
+      Widget _buildActionsCard(BuildContext context, RepoAnalysis analysis) {
+        return Container(
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF1a1a2e), Color(0xFF16213e)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.border.withValues(alpha: 0.5)),
+          ),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Acciones',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              analysis.projectType != ProjectType.unknown
+                                  ? 'Enviando "${analysis.name}" al Orchestrator...'
+                                  : 'Primero detecta el tipo de proyecto',
+                            ),
+                            backgroundColor: AppColors.ia,
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.play_arrow),
+                      label: const Text('Enviar al Orchestrator'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.ia,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Guardando "${analysis.name}" en el Registry...'),
+                            backgroundColor: AppColors.herramientas,
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.save),
+                      label: const Text('Guardar en Registry'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.herramientas,
+                        side: const BorderSide(color: AppColors.herramientas),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+      ```
+
+      IMPORTANTE: El callback de "Enviar al Orchestrator" de momento solo muestra un SnackBar.
+      NO intentes copiar archivos ni navegar — eso se hará en la siguiente iteración.
+      Solo el UI por ahora.
+
+      El método _buildActionsCard va dentro de la clase ChecklistWidget, como método privado.
+      Añadir import de 'package:flutter/material.dart' si no está (ya debe estar).
+
+      2. MOSTRAR EL TIPO EN _buildRepoCard()
+
+      En _buildRepoCard(), dentro del Container del Row con el icono de folder,
+      después del Expanded con el nombre y descripción, añadir:
+
+      ```dart
+      const SizedBox(width: 12),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.educacion.withValues(alpha: 0.15),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.educacion.withValues(alpha: 0.3)),
+        ),
+        child: Text(
+          '${analysis.projectType.icon} ${analysis.projectType.label}',
+          style: const TextStyle(
+            color: AppColors.educacion,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      ```
+
+      El import de repo_analysis.dart ya está (se usa analysis.projectType en los checks).
+      El enum ProjectType y su extensión ProjectTypeExtension están en repo_analysis.dart.
+
+      REGLAS:
+      - Solo modifica los 2 archivos indicados
+      - No cambies el estilo existente del resto del widget
+      - Haz flutter analyze después de editar
+      - Reporta: archivos modificados, líneas añadidas, errores de análisis
+    assigned_to: coder
+    verified_by: verifier
+    verify_prompt: |
+      Lee el archivo lib/features/analyzer/presentation/widgets/checklist_widget.dart.
+      Verifica:
+      1. El método _buildActionsCard existe y tiene los 2 botones descritos
+      2. El tipo de proyecto se muestra en _buildRepoCard()
+      3. No hay errores de compilación (busca imports faltantes de ProjectType)
+      4. El widget sigue compilando (no rompe el resto del build)
+      Si falta algo, FAIL con el detalle específico.

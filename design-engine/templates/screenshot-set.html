@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Screenshots — NOMBRE_PROYECTO</title>
+    <!--
+      PLANTILLA: Generador de screenshots con marco para App Store / Play Store
+      Genera varias imágenes estáticas, no un video.
+      
+      USO:
+      1. Rellenar CONFIG con screenshots reales (base64)
+      2. Abrir en Chrome y hacer captura de pantalla de cada slide
+      3. O exportar con render-video.js y extraer frames con ffmpeg:
+         ffmpeg -i output.mp4 -vf "select=eq(n\,0)+eq(n\,150)+eq(n\,300)" -vsync vfr screenshot_%d.png
+
+      TAMAÑOS OFICIALES:
+      - iPhone 6.7" → 1290×2796
+      - iPhone 6.5" → 1242×2688
+      - iPad 12.9"  → 2048×2732
+      - Android     → 1080×1920 (mínimo)
+    -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; overflow: hidden; font-family: 'Inter', sans-serif; }
+        #root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+/* ─── Motor de Animación (mínimo para screenshots) ─── */
+(function() {
+    const { createContext, useContext, useState, useEffect } = React;
+    const TimeContext = createContext({ time: 0, duration: 20 });
+    const Easing = {
+        expoOut: t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+        overshoot: t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
+    };
+    function interpolate(t, input, output, easing) {
+        const [iS, iE] = input; const [oS, oE] = output;
+        if (t <= iS) return oS; if (t >= iE) return oE;
+        let p = (t - iS) / (iE - iS); if (easing) p = easing(p);
+        return oS + (oE - oS) * p;
+    }
+    function Stage({ duration = 20, width = 1290, height = 2796, children }) {
+        const [time, setTime] = useState(0);
+        const [scale, setScale] = useState(1);
+        useEffect(() => {
+            function updateScale() { setScale(Math.min(window.innerWidth / width, window.innerHeight / height)); }
+            updateScale(); window.addEventListener('resize', updateScale);
+            return () => window.removeEventListener('resize', updateScale);
+        }, [width, height]);
+        useEffect(() => {
+            let last = null, raf;
+            const loop = !(typeof window !== 'undefined' && window.__recording);
+            const tick = (now) => {
+                if (last === null) { last = now; if (typeof window !== 'undefined') window.__ready = true; }
+                const delta = (now - last) / 1000; last = now;
+                setTime(prev => { const next = prev + delta; return next >= duration ? (loop ? 0 : duration - 0.001) : next; });
+                raf = requestAnimationFrame(tick);
+            };
+            if (document.fonts?.ready) document.fonts.ready.then(() => { raf = requestAnimationFrame(tick); });
+            else raf = requestAnimationFrame(tick);
+            return () => cancelAnimationFrame(raf);
+        }, [duration]);
+        return React.createElement(TimeContext.Provider, { value: { time, duration } },
+            React.createElement('div', { style: { position: 'fixed', inset: 0, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+                React.createElement('div', { style: { width, height, position: 'relative', overflow: 'hidden', transform: `scale(${scale})`, transformOrigin: 'center center' } }, children)
+            )
+        );
+    }
+    window.Animations = { Stage, Easing, interpolate, useTime: () => useContext(TimeContext).time };
+})();
+</script>
+
+<script type="text/babel">
+const { Stage, Easing, interpolate, useTime } = window.Animations;
+
+/* ══════════════════════════════════════════════════════════
+   CONFIGURACIÓN — EDITAR AQUÍ
+   ══════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+    nombre: 'NOMBRE_PROYECTO',
+    duracion: 25, // 5 segundos por slide (5 slides × 5s)
+
+    color: {
+        primary: '#1976D2',
+        light: '#42a5f5',
+        bg_gradient: ['#05080f', '#0a1628'],
+    },
+
+    // Cada slide = una captura para la store
+    slides: [
+        { screenshot: '', headline: 'Titular de la captura 1', subtitle: 'Descripción corta de la funcionalidad' },
+        { screenshot: '', headline: 'Titular de la captura 2', subtitle: 'Descripción corta' },
+        { screenshot: '', headline: 'Titular de la captura 3', subtitle: 'Descripción corta' },
+        { screenshot: '', headline: 'Titular de la captura 4', subtitle: 'Descripción corta' },
+        { screenshot: '', headline: 'Titular de la captura 5', subtitle: 'Descripción corta' },
+    ],
+};
+
+/* ══════════════════════════════════════════════════════════
+   COMPONENTES
+   ══════════════════════════════════════════════════════════ */
+
+const C = CONFIG.color;
+const SLIDE_DUR = CONFIG.duracion / CONFIG.slides.length;
+
+const Slide = ({ screenshot, headline, subtitle, index }) => {
+    const time = useTime();
+    const start = index * SLIDE_DUR;
+    const end = start + SLIDE_DUR;
+    if (time < start || time >= end) return null;
+
+    const localT = time - start;
+
+    return <div style={{
+        position: 'absolute', inset: 0,
+        background: `linear-gradient(160deg, ${C.bg_gradient[0]}, ${C.bg_gradient[1]})`,
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        padding: '120px 80px 80px',
+    }}>
+        {/* Headline */}
+        <div style={{
+            fontSize: 72, fontWeight: 900, color: '#e2e8f0', textAlign: 'center',
+            lineHeight: 1.15, maxWidth: 1000, marginBottom: 16,
+            opacity: interpolate(localT, [0, 0.5], [0, 1], Easing.expoOut),
+            transform: `translateY(${interpolate(localT, [0, 0.5], [40, 0], Easing.expoOut)}px)`,
+        }}>{headline}</div>
+
+        {/* Subtitle */}
+        <div style={{
+            fontSize: 32, fontWeight: 300, color: C.light, textAlign: 'center',
+            maxWidth: 900, marginBottom: 60,
+            opacity: interpolate(localT, [0.2, 0.6], [0, 1], Easing.expoOut),
+        }}>{subtitle}</div>
+
+        {/* Phone with screenshot */}
+        <div style={{
+            flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            opacity: interpolate(localT, [0.3, 0.8], [0, 1], Easing.expoOut),
+            transform: `scale(${interpolate(localT, [0.3, 0.8], [0.85, 1], Easing.overshoot)})`,
+        }}>
+            <div style={{
+                width: 420, height: 860, borderRadius: 55,
+                background: '#1a1a2e', border: '4px solid #333',
+                boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 60px ${C.primary}33`,
+                overflow: 'hidden', position: 'relative',
+            }}>
+                {/* Notch */}
+                <div style={{
+                    position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
+                    width: 180, height: 40, background: '#1a1a2e',
+                    borderBottomLeftRadius: 22, borderBottomRightRadius: 22, zIndex: 5,
+                }} />
+                {/* Screen */}
+                <div style={{ position: 'absolute', inset: 6, borderRadius: 49, overflow: 'hidden', background: '#111' }}>
+                    {screenshot ? <img src={screenshot} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#555', fontSize: 18 }}>Screenshot {index + 1}</div>}
+                </div>
+                {/* Home indicator */}
+                <div style={{ position: 'absolute', bottom: 12, left: '50%', transform: 'translateX(-50%)', width: 140, height: 5, borderRadius: 3, background: '#555' }} />
+            </div>
+        </div>
+    </div>;
+};
+
+const App = () => (
+    <Stage duration={CONFIG.duracion} width={1290} height={2796}>
+        {CONFIG.slides.map((s, i) => (
+            <Slide key={i} index={i} screenshot={s.screenshot} headline={s.headline} subtitle={s.subtitle} />
+        ))}
+    </Stage>
+);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

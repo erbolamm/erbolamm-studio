@@ -1,0 +1,32 @@
+{
+  "hosting": {
+    "site": "erbolamm-studio",
+    "public": "web-landing",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "macos": {
+        "default": {
+          "projectId": "erbolamm-hub",
+          "appId": "1:451689230442:ios:9a21b099abb4e68e451a13",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "erbolamm-hub",
+          "configurations": {
+            "macos": "1:451689230442:ios:9a21b099abb4e68e451a13",
+            "windows": "1:451689230442:web:0dd62b29df5dcfe4451a13"
+          }
+        }
+      }
+    }
+  }
+}

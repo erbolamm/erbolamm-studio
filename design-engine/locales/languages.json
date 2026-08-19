@@ -1,0 +1,67 @@
+{
+  "languages": [
+    { "code": "es", "flag": "🇪🇸", "name": "Español",   "bcp47": "es-ES" },
+    { "code": "en", "flag": "🇬🇧", "name": "English",   "bcp47": "en-US" },
+    { "code": "pt", "flag": "🇧🇷", "name": "Português", "bcp47": "pt-BR" },
+    { "code": "fr", "flag": "🇫🇷", "name": "Français",  "bcp47": "fr-FR" },
+    { "code": "de", "flag": "🇩🇪", "name": "Deutsch",   "bcp47": "de-DE" },
+    { "code": "it", "flag": "🇮🇹", "name": "Italiano",  "bcp47": "it-IT" }
+  ],
+
+  "ui": {
+    "es": {
+      "novedades": "Novedades",
+      "asi_se_ve": "Así se ve",
+      "pruebalo": "Pruébalo",
+      "actualiza": "Actualiza ahora",
+      "disponible": "disponible",
+      "cambios": "cambios importantes",
+      "autor": "Javier Mateo · ApliArte"
+    },
+    "en": {
+      "novedades": "What's New",
+      "asi_se_ve": "See it in action",
+      "pruebalo": "Try it now",
+      "actualiza": "Update now",
+      "disponible": "available",
+      "cambios": "key changes",
+      "autor": "Javier Mateo · ApliArte"
+    },
+    "pt": {
+      "novedades": "Novidades",
+      "asi_se_ve": "Veja em ação",
+      "pruebalo": "Experimente",
+      "actualiza": "Atualize agora",
+      "disponible": "disponível",
+      "cambios": "mudanças importantes",
+      "autor": "Javier Mateo · ApliArte"
+    },
+    "fr": {
+      "novedades": "Nouveautés",
+      "asi_se_ve": "Voyez par vous-même",
+      "pruebalo": "Essayez-le",
+      "actualiza": "Mettez à jour",
+      "disponible": "disponible",
+      "cambios": "changements importants",
+      "autor": "Javier Mateo · ApliArte"
+    },
+    "de": {
+      "novedades": "Neuigkeiten",
+      "asi_se_ve": "So sieht es aus",
+      "pruebalo": "Jetzt testen",
+      "actualiza": "Jetzt aktualisieren",
+      "disponible": "verfügbar",
+      "cambios": "wichtige Änderungen",
+      "autor": "Javier Mateo · ApliArte"
+    },
+    "it": {
+      "novedades": "Novità",
+      "asi_se_ve": "Guarda come funziona",
+      "pruebalo": "Provalo",
+      "actualiza": "Aggiorna ora",
+      "disponible": "disponibile",
+      "cambios": "modifiche importanti",
+      "autor": "Javier Mateo · ApliArte"
+    }
+  }
+}

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ErBolamm Studio — Autonomous Creative Suite & Software Factory</title>
+  <meta name="description" content="De una idea o repositorio de GitHub a un proyecto auditado, con video TikTok/Reels, locución neural en 6 idiomas, screenshots y registrado en tu Universo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07070D;
+      --surface: #0E0E18;
+      --surface-card: #141424;
+      --border: #232338;
+      --border-glow: #7C3AED;
+      --text: #F1F5F9;
+      --text-muted: #64748B;
+      --text-secondary: #94A3B8;
+      --primary: #7C3AED;
+      --cyan: #06B6D4;
+      --pink: #FF4E83;
+      --green: #10B981;
+      --orange: #F59E0B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(124, 58, 237, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(255, 78, 131, 0.08) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Navigation ── */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(7, 7, 13, 0.85);
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .logo-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--primary), var(--pink));
+      color: #fff;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-btn {
+      padding: 8px 18px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      color: #C084FC;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ── Hero Section ── */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+      position: relative;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(124, 58, 237, 0.12);
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      color: #D8B4FE;
+      margin-bottom: 24px;
+      animation: float 4s ease-in-out infinite;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 58px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #FFFFFF 20%, #A855F7 60%, #38BDF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 14px 32px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #9333EA);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(124, 58, 237, 0.5);
+    }
+    .btn-secondary {
+      padding: 14px 28px;
+      border-radius: 14px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: #1C1C30;
+      transform: translateY(-2px);
+    }
+
+    /* ── Special Promo / Universe Banner ── */
+    .universe-promo {
+      margin: 40px auto 30px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+      border: 1px solid rgba(124, 58, 237, 0.4);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+    .universe-promo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(255, 78, 131, 0.25), transparent 70%);
+      filter: blur(40px);
+    }
+    .agents-promo {
+      margin: 0 auto 60px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(124, 58, 237, 0.12) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.35);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+    .agents-promo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.25), transparent 70%);
+      filter: blur(40px);
+    }
+    .promo-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .promo-text {
+      flex: 1;
+      min-width: 280px;
+      text-align: left;
+    }
+    .promo-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      background: var(--pink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .promo-text h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .promo-text p {
+      font-size: 14px;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+    .promo-btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: #fff;
+      color: #07070D;
+      font-weight: 800;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .promo-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    /* ── Pipeline Steps ── */
+    .section-title {
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      text-align: center;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 70px;
+    }
+    .pipe-step {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 14px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .pipe-step:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-4px);
+    }
+    .pipe-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .pipe-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .pipe-role {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* ── Features Grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+    .feature-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .feature-card:hover {
+      border-color: rgba(124, 58, 237, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+    .feat-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+    .feature-card h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .feat-tag {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: rgba(124, 58, 237, 0.15);
+      color: #C084FC;
+    }
+
+    /* ── Blurred Pricing / Sneak Peek ── */
+    .pricing-section {
+      margin-bottom: 80px;
+      position: relative;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      position: relative;
+    }
+    .price-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .price-card.featured {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.12) 0%, var(--surface-card) 100%);
+      box-shadow: 0 12px 36px rgba(124, 58, 237, 0.2);
+    }
+    .price-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: rgba(124, 58, 237, 0.2);
+      color: #D8B4FE;
+      margin-bottom: 12px;
+    }
+    .price-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .price-amount {
+      font-size: 38px;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      margin: 16px 0;
+      color: #fff;
+      position: relative;
+      display: inline-block;
+    }
+    .blur-value {
+      filter: blur(6px);
+      user-select: none;
+      color: #A855F7;
+    }
+    .price-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .price-list {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .price-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .check-icon {
+      color: var(--green);
+      font-weight: bold;
+    }
+    .price-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.2s;
+    }
+    .price-card.featured .price-btn {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .price-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    /* ── Terminal / Doctor Preview ── */
+    .terminal-box {
+      background: #0A0A14;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #A0AEC0;
+      margin-bottom: 80px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+    .term-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .term-dot.red { background: #EF4444; }
+    .term-dot.yellow { background: #F59E0B; }
+    .term-dot.green { background: #10B981; }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 40px 0 60px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    footer a:hover { color: #fff; }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 38px; }
+      .hero p { font-size: 16px; }
+      .promo-content { text-align: center; }
+      .promo-text { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav-wrap">
+      <a href="#" class="logo">
+        <span>ErBolamm Studio</span>
+        <span class="logo-badge">Creative Suite</span>
+      </a>
+      <div class="nav-links">
+        <a href="https://erbolamm-hub.web.app/#/universo" target="_blank" class="nav-link">🌌 Universo Hub</a>
+        <a href="https://erbolamm.github.io/FabricaDeAgentesApliarte/" target="_blank" class="nav-link">🤖 Fábrica de Agentes</a>
+        <a href="https://github.com/erbolamm" target="_blank" class="nav-link">GitHub</a>
+        <a href="https://erbolamm-hub.web.app/#/universo" class="nav-btn">Acceso Fundador 🚀</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="pill">
+        <span class="pulse-dot"></span>
+        Lanzamiento Oficial Programado · Finales de 2026
+      </div>
+      <h1>
+        Tu Fábrica Autónoma de <br>
+        <span class="gradient-text">Software, Marketing y Universo</span>
+      </h1>
+      <p>
+        De una idea o repositorio de GitHub a un proyecto 100% auditado, con video vertical para TikTok/Reels, locución neural en 6 idiomas, screenshots y publicado en tu Universo interactivo.
+      </p>
+      <div class="hero-actions">
+        <a href="https://erbolamm-hub.web.app/#/universo" target="_blank" class="btn-primary">
+          🌌 Explorar Universo 3D & Colaborar
+        </a>
+        <a href="https://github.com/erbolamm/erbolamm-studio" target="_blank" class="btn-secondary">
+          ⭐ Seguir en GitHub
+        </a>
+      </div>
+    </section>
+
+    <!-- Special Universe Collaboration Banner -->
+    <section class="universe-promo">
+      <div class="promo-content">
+        <div class="promo-text">
+          <span class="promo-badge" style="background: var(--pink); color: #fff;">🌌 100% Abierto & Gratuito</span>
+          <h3>📢 Mensaje del Autor: Hacé tu lugar en el Universo ErBolamm</h3>
+          <p>
+            No dispongo de tiempo para seguir manteniendo activamente esta interfaz de escritorio, por eso <strong>libero este proyecto 100% público, abierto y gratuito</strong>. El código y las automatizaciones están totalmente funcionales.
+            Si te resulta útil, <strong>agradezco tu ⭐ estrella en GitHub</strong> y que te des una vuelta por el <strong>Universo ErBolamm</strong> (donde ahora está todo unificado: juegos, herramientas y proyectos en un solo lugar).
+          </p>
+        </div>
+        <a href="https://erbolamm-hub.web.app/" target="_blank" class="promo-btn" style="background: linear-gradient(135deg, #7C3AED, #06B6D4); color: #fff;">
+          🌌 Entrar al Universo ErBolamm ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- Fábrica de Agentes Announcement Banner -->
+    <section class="agents-promo">
+      <div class="promo-content">
+        <div class="promo-text">
+          <span class="promo-badge" style="background: var(--cyan); color: #000;">⚡ 100% Abierto & Gratuito</span>
+          <h3>🤖 Fábrica de Agentes & Prompts ApliArte</h3>
+          <p>
+            Descubrí y ejecutá <strong>34 Prompts y Workflows de IA de alta precisión</strong> para Gemas de Gemini, Custom GPTs, Claude Projects, DeepSeek y más. Incluye taller interactivo <code>#ROL + #CONTEXTO + #PASOS</code> y conectores directos BYOK en el navegador.
+          </p>
+        </div>
+        <a href="https://erbolamm.github.io/FabricaDeAgentesApliarte/" target="_blank" class="promo-btn" style="border-color: var(--cyan); color: #fff; background: rgba(6, 182, 212, 0.15);">
+          ⚡ Crear Agente Gratis ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- Pipeline -->
+    <h2 class="section-title">El Pipeline Autónomo de 7 Agentes</h2>
+    <p class="section-sub">Un solo click o comando ejecuta la cadena de producción completa</p>
+
+    <div class="pipeline-grid">
+      <div class="pipe-step">
+        <div class="pipe-icon">📥</div>
+        <div class="pipe-name">Analyzer</div>
+        <div class="pipe-role">Auditoría Git</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🧠</div>
+        <div class="pipe-name">Classifier</div>
+        <div class="pipe-role">4 Pilares</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🛡️</div>
+        <div class="pipe-name">Auditor</div>
+        <div class="pipe-role">Seguridad & ATT</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🎬</div>
+        <div class="pipe-name">Marketing</div>
+        <div class="pipe-role">Video & 6 Idiomas</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">☁️</div>
+        <div class="pipe-name">CloudAuditor</div>
+        <div class="pipe-role">Firebase & Cloud</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">🔄</div>
+        <div class="pipe-name">Migrator</div>
+        <div class="pipe-role">Pnpm & Standard</div>
+      </div>
+      <div class="pipe-step">
+        <div class="pipe-icon">📝</div>
+        <div class="pipe-name">Registrar</div>
+        <div class="pipe-role">Universe.json</div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <h2 class="section-title">Estudios Creativos Integrados</h2>
+    <p class="section-sub">Todo lo que necesitás para no volver a abrir un editor de texto ni programas de diseño manual</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feat-icon">🎬</span>
+        <h4>Animation Studio</h4>
+        <p>Renderizado determinista con Playwright + ffmpeg. Videos verticales 1080×1920 para TikTok/Reels y horizontales para YouTube con marcos de iPhone, Android y Mac.</p>
+        <span class="feat-tag">MP4 60fps</span>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🗣️</span>
+        <h4>Voice Studio Neural</h4>
+        <p>Generación de locución profesional en 6 idiomas (Español, Inglés, Portugués, Francés, Alemán, Italiano) usando modelos MiniMax M2.7 y síntesis en Dart puro.</p>
+        <span class="feat-tag">6 Idiomas</span>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🎵</span>
+        <h4>Music Studio Procedural</h4>
+        <p>Composición musical algorítmica con Strudel REPL y Tone.js sintetizado para bandas sonoras dinámicas sin derechos de autor.</p>
+        <span class="feat-tag">Web Audio API</span>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🤖</span>
+        <h4>Selector Dual de IA (BYOK)</h4>
+        <p>Conectá tus propias claves oficiales: DeepSeek, Claude 3.5 Sonnet, GPT-4o, Gemini 1.5, Groq o NVIDIA NIM con Modo Auto de fallback inteligente.</p>
+        <span class="feat-tag">9 Proveedores</span>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">💻</span>
+        <h4>Operación Visual & CLI Puro</h4>
+        <p>Usalo desde la interfaz gráfica con botones de 1 clic o desde la terminal con <code>dart run bin/studio.dart</code> para servidores o máquinas Linux.</p>
+        <span class="feat-tag">Multiplataforma</span>
+      </div>
+      <div class="feature-card">
+        <span class="feat-icon">🌌</span>
+        <h4>Sincronización de Universo</h4>
+        <p>Registro atómico en base de datos local SQLite y exportación a <code>universe.json</code> para visualización en el mapa 3D de planetas de erbolamm-hub.</p>
+        <span class="feat-tag">Ecosistema 3D</span>
+      </div>
+    </div>
+
+    <!-- Terminal Preview Box -->
+    <div class="terminal-box">
+      <div class="term-header">
+        <div class="term-dot red"></div>
+        <div class="term-dot yellow"></div>
+        <div class="term-dot green"></div>
+        <span style="font-size: 11px; margin-left: 8px; color: #64748b;">erbolamm-studio-doctor</span>
+      </div>
+      <div style="color: #38bdf8;">❯ dart run bin/studio.dart doctor</div>
+      <div style="margin-top: 8px;">🩺 <span style="color: #fff; font-weight: bold;">ErBolamm Studio Doctor:</span></div>
+      <div style="color: #10b981;">  ✅ Node.js: v26.5.0</div>
+      <div style="color: #10b981;">  ✅ pnpm: 11.9.0</div>
+      <div style="color: #10b981;">  ✅ ffmpeg: version 8.1.1</div>
+      <div style="color: #10b981;">  ✅ MiniMax CLI (mmx): 1.0.16</div>
+      <div style="color: #10b981;">  ✅ GitHub CLI (gh): 2.89.0</div>
+      <div style="margin-top: 8px; color: #a855f7;">🤖 Estado de IAs: <span style="color: #10b981;">Modo Auto Inteligente Activo ✅</span></div>
+    </div>
+
+    <!-- Pricing / Preview Section (Borroso / Coming Soon) -->
+    <section class="pricing-section">
+      <h2 class="section-title">Planes & Acceso Anticipado</h2>
+      <p class="section-sub">Precios preliminares para el lanzamiento de finales de 2026. ¡50% OFF para colaboradores del Universo!</p>
+
+      <div class="pricing-grid">
+        <!-- Tier 1 -->
+        <div class="price-card">
+          <span class="price-badge">Starter</span>
+          <h3>Creative Assets</h3>
+          <div class="price-amount"><span class="blur-value">€29</span> <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">/proyecto</span></div>
+          <p class="price-desc">Ideal para creadores que solo buscan screenshots y assets de tienda.</p>
+          <ul class="price-list">
+            <li><span class="check-icon">✓</span> Screenshots con marcos iPhone/Android/Mac</li>
+            <li><span class="check-icon">✓</span> Landing page estática responsiva</li>
+            <li><span class="check-icon">✓</span> Brand spec y paletas de color</li>
+            <li><span class="check-icon">✓</span> Modo GUI visual</li>
+          </ul>
+          <a href="https://erbolamm-hub.web.app/#/universo" class="price-btn">Pre-registro con 50% OFF</a>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="price-card featured">
+          <span class="price-badge" style="background: var(--primary); color: #fff;">MÁS POPULAR · FACTORY</span>
+          <h3>Software Factory</h3>
+          <div class="price-amount"><span class="blur-value">€79</span> <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">/licencia</span></div>
+          <p class="price-desc">La suite completa para automatizar 20+ proyectos sin tocar editores.</p>
+          <ul class="price-list">
+            <li><span class="check-icon">✓</span> <strong>Todo lo del plan Starter</strong></li>
+            <li><span class="check-icon">✓</span> Orquestador autónomo de 7 Agentes</li>
+            <li><span class="check-icon">✓</span> Videos TikTok/Reels 1080×1920 (MP4)</li>
+            <li><span class="check-icon">✓</span> Locución neural en 6 idiomas (MiniMax)</li>
+            <li><span class="check-icon">✓</span> CLI Runner de Terminal puro</li>
+            <li><span class="check-icon">✓</span> Auditorías de seguridad y licencias</li>
+          </ul>
+          <a href="https://erbolamm-hub.web.app/#/universo" class="price-btn">Pre-registro con 50% OFF</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="price-card">
+          <span class="price-badge">Ecosistema 3D</span>
+          <h3>Universo Suite</h3>
+          <div class="price-amount"><span class="blur-value">€149</span> <span style="font-size: 14px; font-weight: normal; color: var(--text-muted);">/vitalicio</span></div>
+          <p class="price-desc">Para agencias y desarrolladores con múltiples marcas y planetas.</p>
+          <ul class="price-list">
+            <li><span class="check-icon">✓</span> <strong>Todo lo del plan Software Factory</strong></li>
+            <li><span class="check-icon">✓</span> Planetas y grafos 3D interactivos</li>
+            <li><span class="check-icon">✓</span> Visor público embebible para tus webs</li>
+            <li><span class="check-icon">✓</span> Sincronización en la nube con erbolamm-hub</li>
+            <li><span class="check-icon">✓</span> Soporte prioritario de arquitecto</li>
+          </ul>
+          <a href="https://erbolamm-hub.web.app/#/universo" class="price-btn">Pre-registro con 50% OFF</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p style="font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;">
+        ErBolamm Studio · Autonomous Creative Suite & Software Factory
+      </p>
+      <p>
+        © 2026 ApliArte · MIT License · Creado con 🧠 por Javier Mateo
+      </p>
+      <p style="margin-top: 12px;">
+        <a href="https://erbolamm.com" target="_blank">erbolamm.com</a> · 
+        <a href="https://erbolamm-hub.web.app/#/universo" target="_blank">Universo Hub</a> · 
+        <a href="https://erbolamm.github.io/FabricaDeAgentesApliarte/" target="_blank">Fábrica de Agentes</a> · 
+        <a href="https://apliarte.com" target="_blank">ApliArte</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

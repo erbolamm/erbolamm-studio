@@ -1,0 +1,12 @@
+# 🗣️ Voice Pipeline — Python dependencies
+# Install: pip install -r requirements.txt
+#
+# XTTS v2 necesita torch. En macOS:
+#   pip install torch torchaudio
+# En Linux con GPU:
+#   pip install torch torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+TTS>=0.22.0
+torch>=2.1.0
+torchaudio>=2.1.0
+soundfile>=0.12.0

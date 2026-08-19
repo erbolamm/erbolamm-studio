@@ -1,0 +1,37 @@
+schema: spec-driven
+project: erbolamm-studio
+strict_tdd: false
+context: |
+  Flutter/Dart cross-platform creative suite for macOS, Windows, Linux, and mobile.
+  Material UI uses flutter_bloc; Firebase Auth/Firestore and local SQLite persist data.
+  Feature-first UI is coordinated by core navigation, services, and shared models.
+  The orchestrator runs Analyzer, Classifier, Auditor, Marketing, Registrar, Cloud Auditor, and Migrator agents over INBOX projects.
+testing:
+  command: flutter test
+  coverage_command: flutter test --coverage
+  analyze_command: flutter analyze
+  format_command: dart format --set-exit-if-changed .
+  unit: true
+  widget: true
+  integration: false
+  e2e: false
+rules:
+  proposal:
+    require_problem_statement: true
+    require_rollback_plan_for_risky_changes: true
+  spec:
+    require_acceptance_criteria: true
+    require_given_when_then_scenarios: true
+  design:
+    require_tradeoffs: true
+  tasks:
+    protect_review_workload: true
+    review_budget_lines: 400
+  apply:
+    tdd: false
+    test_command: flutter test
+  verify:
+    test_command: flutter test
+    analyze_command: flutter analyze
+  archive:
+    warn_before_destructive_delta_merge: true

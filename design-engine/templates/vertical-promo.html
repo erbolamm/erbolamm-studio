@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Promo Vertical — NOMBRE_PROYECTO</title>
+    <!--
+      PLANTILLA: Video Vertical para TikTok/Reels/Stories
+      Resolución: 1080×1920
+      Duración: Ajustar en Stage duration={SEGUNDOS}
+
+      INSTRUCCIONES PARA EL AGENTE IA:
+      1. Reemplazar NOMBRE_PROYECTO por el nombre real
+      2. Reemplazar DESCRIPCION por la descripción del proyecto
+      3. Reemplazar PILAR_COLOR por el color del pilar (ver SKILL.md)
+      4. Reemplazar FEATURES por las características reales del CHANGELOG
+      5. Embeber screenshots reales como base64
+      6. Ajustar la duración según el contenido
+    -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; overflow: hidden; font-family: 'Inter', sans-serif; }
+        #root { width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+/* ─── Motor de Animación (de animations.jsx) ─── */
+(function() {
+    const { createContext, useContext, useState, useEffect, useRef } = React;
+    const TimeContext = createContext({ time: 0, duration: 20 });
+    const SpriteContext = createContext(null);
+    const Easing = {
+        linear: t => t,
+        easeOut: t => 1 - (1 - t) * (1 - t),
+        easeInOut: t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2,
+        expoOut: t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+        overshoot: t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
+    };
+    function interpolate(t, input, output, easing) {
+        const [iS, iE] = input; const [oS, oE] = output;
+        if (t <= iS) return oS; if (t >= iE) return oE;
+        let p = (t - iS) / (iE - iS);
+        if (easing) p = easing(p);
+        return oS + (oE - oS) * p;
+    }
+    function Stage({ duration = 20, width = 1080, height = 1920, children }) {
+        const [time, setTime] = useState(0);
+        const [scale, setScale] = useState(1);
+        useEffect(() => {
+            function updateScale() { setScale(Math.min(window.innerWidth / width, window.innerHeight / height)); }
+            updateScale(); window.addEventListener('resize', updateScale);
+            return () => window.removeEventListener('resize', updateScale);
+        }, [width, height]);
+        useEffect(() => {
+            let last = null, raf;
+            const loop = !(typeof window !== 'undefined' && window.__recording);
+            const tick = (now) => {
+                if (last === null) { last = now; if (typeof window !== 'undefined') window.__ready = true; }
+                const delta = (now - last) / 1000; last = now;
+                setTime(prev => { const next = prev + delta; return next >= duration ? (loop ? 0 : duration - 0.001) : next; });
+                raf = requestAnimationFrame(tick);
+            };
+            if (document.fonts?.ready) document.fonts.ready.then(() => { raf = requestAnimationFrame(tick); });
+            else raf = requestAnimationFrame(tick);
+            return () => cancelAnimationFrame(raf);
+        }, [duration]);
+        return React.createElement(TimeContext.Provider, { value: { time, duration } },
+            React.createElement('div', { style: { position: 'fixed', inset: 0, background: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+                React.createElement('div', { style: { width, height, position: 'relative', overflow: 'hidden', transform: `scale(${scale})`, transformOrigin: 'center center', background: '#05080f' } }, children)
+            )
+        );
+    }
+    function Sprite({ start = 0, end, children }) {
+        const { time } = useContext(TimeContext);
+        if (time < start || time >= (end || 999)) return null;
+        return React.createElement(SpriteContext.Provider, { value: { t: (time - start) / ((end || 999) - start), elapsed: time - start, duration: (end || 999) - start } }, children);
+    }
+    window.Animations = { Stage, Sprite, Easing, interpolate, useTime: () => useContext(TimeContext).time, useSprite: () => useContext(SpriteContext) };
+})();
+</script>
+
+<script type="text/babel">
+const { Stage, Sprite, Easing, interpolate, useTime, useSprite } = window.Animations;
+
+/* ══════════════════════════════════════════════════════════
+   CONFIGURACIÓN DEL PROYECTO — EDITAR AQUÍ
+   ══════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+    nombre: 'NOMBRE_PROYECTO',
+    version: 'v1.0',
+    descripcion: 'DESCRIPCION',
+    url: 'erbolamm.github.io/NOMBRE_PROYECTO',
+    duracion: 20, // segundos totales
+
+    // Color del pilar (ver SKILL.md)
+    color: {
+        primary:  '#1976D2',  // Azul Educación — cambiar según pilar
+        light:    '#42a5f5',
+        pale:     '#90caf9',
+        glow:     'rgba(25, 118, 210, 0.4)',
+        bg:       '#05080f',
+    },
+
+    // Badges del hero
+    badges: ['🔒 Privado', '🆓 Gratis', '⚡ Rápido'],
+
+    // Features (rellenar con datos reales del CHANGELOG)
+    features: [
+        { icon: '🚀', titulo: 'Feature 1', desc: 'Descripción de la feature 1' },
+        { icon: '🎯', titulo: 'Feature 2', desc: 'Descripción de la feature 2' },
+        { icon: '⚡', titulo: 'Feature 3', desc: 'Descripción de la feature 3' },
+        { icon: '🔒', titulo: 'Feature 4', desc: 'Descripción de la feature 4' },
+    ],
+
+    // Screenshots embebidas como base64 (reemplazar con datos reales)
+    // screenshots: ['data:image/png;base64,...', 'data:image/png;base64,...'],
+    screenshots: [],
+};
+
+/* ══════════════════════════════════════════════════════════
+   COMPONENTES REUTILIZABLES — NO TOCAR
+   ══════════════════════════════════════════════════════════ */
+
+const C = CONFIG.color;
+
+const GridBg = () => {
+    const time = useTime();
+    return <div style={{
+        position: 'absolute', inset: -200,
+        backgroundImage: `linear-gradient(${C.glow.replace('0.4','0.06')} 1px, transparent 1px), linear-gradient(90deg, ${C.glow.replace('0.4','0.06')} 1px, transparent 1px)`,
+        backgroundSize: '80px 80px',
+        opacity: interpolate(time, [0, 2], [0, 0.15], Easing.easeOut),
+        transform: `perspective(900px) rotateX(55deg) translateY(${(time * 15) % 80}px)`,
+    }} />;
+};
+
+const GlowOrb = ({ x, y, size, delay }) => {
+    const time = useTime();
+    return <div style={{
+        position: 'absolute', left: x, top: y, width: size, height: size,
+        borderRadius: '50%',
+        background: `radial-gradient(circle, ${C.primary} 0%, transparent 70%)`,
+        opacity: interpolate(time, [delay, delay + 1.5], [0, 0.2], Easing.easeOut) * (0.7 + 0.3 * Math.sin(time * 1.2 + delay)),
+        filter: 'blur(40px)', zIndex: 1,
+    }} />;
+};
+
+const TextReveal = ({ text, delay, size = 28, color = '#e2e8f0', weight = 400, mono = false }) => {
+    const { elapsed } = useSprite();
+    const a = elapsed > delay;
+    return <div style={{
+        opacity: a ? interpolate(elapsed - delay, [0, 0.4], [0, 1], Easing.expoOut) : 0,
+        transform: `translateY(${a ? interpolate(elapsed - delay, [0, 0.4], [30, 0], Easing.expoOut) : 30}px)`,
+        color, fontSize: size, fontWeight: weight,
+        fontFamily: mono ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
+        lineHeight: 1.4, textShadow: `0 0 20px ${C.glow}`,
+    }}>{text}</div>;
+};
+
+const FeatureCard = ({ icon, title, desc, delay }) => {
+    const { elapsed } = useSprite();
+    const a = elapsed > delay;
+    return <div style={{
+        opacity: a ? interpolate(elapsed - delay, [0, 0.5], [0, 1], Easing.expoOut) : 0,
+        transform: `translateX(${a ? interpolate(elapsed - delay, [0, 0.5], [60, 0], Easing.expoOut) : 60}px)`,
+        background: `${C.primary}1f`, border: `1px solid ${C.primary}33`,
+        borderRadius: 16, padding: '20px 24px', marginBottom: 14,
+    }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: C.light, marginBottom: 6, fontFamily: "'JetBrains Mono', monospace" }}>
+            {icon} {title}
+        </div>
+        <div style={{ fontSize: 14, color: '#94a3b8', lineHeight: 1.5 }}>{desc}</div>
+    </div>;
+};
+
+const Badge = ({ text, delay }) => {
+    const { elapsed } = useSprite();
+    const a = elapsed > delay;
+    return <span style={{
+        display: 'inline-block',
+        opacity: a ? interpolate(elapsed - delay, [0, 0.3], [0, 1]) : 0,
+        transform: `scale(${a ? interpolate(elapsed - delay, [0, 0.3], [0.8, 1], Easing.overshoot) : 0.8})`,
+        background: `${C.primary}26`, border: `1px solid ${C.primary}4d`,
+        borderRadius: 8, padding: '6px 14px', fontSize: 13, color: C.pale,
+        fontWeight: 600, fontFamily: "'JetBrains Mono', monospace", margin: '0 6px 8px 0',
+    }}>{text}</span>;
+};
+
+const ScreenshotFrame = ({ src, delay, label }) => {
+    const { elapsed } = useSprite();
+    const a = elapsed > delay;
+    return <div style={{
+        opacity: a ? interpolate(elapsed - delay, [0, 0.6], [0, 1], Easing.expoOut) : 0,
+        transform: `scale(${a ? interpolate(elapsed - delay, [0, 0.6], [0.85, 1], Easing.expoOut) : 0.85})`,
+        marginBottom: 16, textAlign: 'center',
+    }}>
+        <div style={{
+            borderRadius: 16, overflow: 'hidden',
+            border: `1px solid ${C.primary}4d`,
+            boxShadow: `0 8px 40px ${C.glow}, 0 0 80px ${C.glow.replace('0.4','0.05')}`,
+        }}>
+            <img src={src} style={{ width: '100%', display: 'block' }} />
+        </div>
+        {label && <div style={{ marginTop: 10, fontSize: 13, color: '#94a3b8', fontFamily: "'JetBrains Mono', monospace" }}>{label}</div>}
+    </div>;
+};
+
+/* ══════════════════════════════════════════════════════════
+   ESCENAS — PERSONALIZAR SEGÚN PROYECTO
+   ══════════════════════════════════════════════════════════ */
+
+const App = () => {
+    const D = CONFIG.duracion;
+    const heroEnd = D * 0.25;
+    const featEnd = D * 0.6;
+    const screenEnd = D * 0.8;
+
+    return (
+        <Stage duration={D} width={1080} height={1920}>
+            <GridBg />
+            <GlowOrb x={-100} y={200} size={500} delay={0} />
+            <GlowOrb x={700} y={1200} size={400} delay={1} />
+
+            {/* ESCENA 1: Hero */}
+            <Sprite start={0} end={heroEnd}>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 60px', zIndex: 10 }}>
+                    <TextReveal text={CONFIG.version} delay={0.3} size={22} color={C.pale} weight={700} mono />
+                    <div style={{ height: 20 }} />
+                    <TextReveal text={CONFIG.nombre} delay={0.8} size={68} color="#e2e8f0" weight={900} />
+                    <div style={{ height: 16 }} />
+                    <TextReveal text={CONFIG.descripcion} delay={1.3} size={28} color={C.pale} weight={300} />
+                    <div style={{ height: 40 }} />
+                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                        {CONFIG.badges.map((b, i) => <Badge key={i} text={b} delay={2 + i * 0.3} />)}
+                    </div>
+                </div>
+            </Sprite>
+
+            {/* ESCENA 2: Features */}
+            <Sprite start={heroEnd} end={featEnd}>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', padding: '100px 50px 50px', zIndex: 10 }}>
+                    <TextReveal text="Novedades" delay={0.2} size={48} color="#e2e8f0" weight={800} />
+                    <div style={{ height: 30 }} />
+                    {CONFIG.features.map((f, i) => (
+                        <FeatureCard key={i} icon={f.icon} title={f.titulo} desc={f.desc} delay={0.6 + i * 0.4} />
+                    ))}
+                </div>
+            </Sprite>
+
+            {/* ESCENA 3: Screenshots (si hay) */}
+            {CONFIG.screenshots.length > 0 && (
+                <Sprite start={featEnd} end={screenEnd}>
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', padding: '80px 50px', zIndex: 10 }}>
+                        <TextReveal text="Así se ve" delay={0.2} size={44} color="#e2e8f0" weight={800} />
+                        <div style={{ height: 24 }} />
+                        {CONFIG.screenshots.map((s, i) => (
+                            <ScreenshotFrame key={i} src={s} delay={0.5 + i * 0.5} />
+                        ))}
+                    </div>
+                </Sprite>
+            )}
+
+            {/* ESCENA FINAL: CTA */}
+            <Sprite start={CONFIG.screenshots.length > 0 ? screenEnd : featEnd} end={D}>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 60px', zIndex: 10 }}>
+                    <TextReveal text="Pruébalo" delay={0.2} size={52} color="#e2e8f0" weight={900} />
+                    <div style={{ height: 20 }} />
+                    <TextReveal text={CONFIG.url} delay={0.8} size={18} color={C.light} mono />
+                    <div style={{ height: 30 }} />
+                    <TextReveal text="Javier Mateo · ApliArte" delay={1.2} size={14} color="#94a3b8" />
+                </div>
+            </Sprite>
+        </Stage>
+    );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
