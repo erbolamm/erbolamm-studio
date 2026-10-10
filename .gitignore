@@ -67,3 +67,5 @@ mi_voz/
 tts_output/
 *.m4a
 *.opus
+.venv/
+**/__pycache__/
